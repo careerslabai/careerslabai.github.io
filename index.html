@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Careers Lab.AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0d0d;
+    --white: #f5f4f0;
+    --slate-900: #1a1f2e;
+    --slate-700: #374151;
+    --slate-500: #6b7280;
+    --slate-300: #b0b8c4;
+    --slate-100: #e8eaed;
+    --red: #8c2f2f;
+    --red-light: #a83535;
+    --red-muted: #c9706a;
+    --accent-line: #8c2f2f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--slate-900);
+    font-size: 15px;
+    line-height: 1.6;
+    cursor: default;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    border-bottom: 1px solid rgba(140,47,47,0.4);
+  }
+
+  .nav-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.35rem;
+    color: var(--white);
+    letter-spacing: 0.01em;
+    text-decoration: none;
+  }
+
+  .nav-brand span {
+    color: var(--red-muted);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--slate-300);
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--red-muted);
+    transition: width 0.25s ease;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    background: var(--black);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(140,47,47,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  #hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--red), transparent);
+  }
+
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red-muted);
+    margin-bottom: 28px;
+  }
+
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    line-height: 1.0;
+    color: var(--white);
+    max-width: 800px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--red-muted);
+  }
+
+  .hero-sub {
+    margin-top: 32px;
+    font-size: 1rem;
+    color: var(--slate-300);
+    max-width: 520px;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .hero-cta {
+    margin-top: 52px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 14px 32px;
+    background: var(--red);
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover { background: var(--red-light); transform: translateY(-1px); }
+
+  .btn-ghost {
+    display: inline-block;
+    padding: 13px 32px;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--slate-300);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+    cursor: pointer;
+    background: none;
+  }
+
+  .btn-ghost:hover { border-color: var(--red-muted); color: var(--white); }
+
+  .hero-stat-row {
+    margin-top: 72px;
+    display: flex;
+    gap: 48px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .hero-stat strong {
+    display: block;
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--white);
+  }
+
+  .hero-stat span {
+    font-size: 0.78rem;
+    color: var(--slate-500);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── SECTION SHARED ── */
+  section {
+    padding: 100px 48px;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 16px;
+  }
+
+  .section-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--slate-900);
+    line-height: 1.15;
+    max-width: 600px;
+    margin-bottom: 48px;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--white);
+    border-top: 1px solid var(--slate-100);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--slate-700);
+    line-height: 1.85;
+    font-size: 0.97rem;
+    margin-bottom: 20px;
+  }
+
+  .about-pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .pillar {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--slate-100);
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .pillar:first-child { border-top: 1px solid var(--slate-100); }
+
+  .pillar-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--red);
+    letter-spacing: 0.1em;
+    padding-top: 3px;
+    min-width: 28px;
+  }
+
+  .pillar-text strong {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--slate-900);
+    margin-bottom: 4px;
+  }
+
+  .pillar-text p {
+    font-size: 0.83rem;
+    color: var(--slate-500);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── PROJECTS ── */
+  #projects {
+    background: var(--slate-900);
+    color: var(--white);
+  }
+
+  #projects .section-heading { color: var(--white); }
+  #projects .section-label { color: var(--red-muted); }
+
+  .projects-intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .projects-intro .section-heading { margin-bottom: 0; }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .project-card {
+    background: var(--slate-900);
+    padding: 36px;
+    transition: background 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 2px; height: 0;
+    background: var(--red);
+    transition: height 0.3s ease;
+  }
+
+  .project-card:hover { background: #222838; }
+  .project-card:hover::before { height: 100%; }
+
+  .project-uni {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red-muted);
+    margin-bottom: 10px;
+  }
+
+  .project-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--white);
+    margin-bottom: 14px;
+    line-height: 1.25;
+  }
+
+  .project-desc {
+    font-size: 0.85rem;
+    color: var(--slate-300);
+    line-height: 1.7;
+  }
+
+  .project-tag {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 4px 10px;
+    background: rgba(140,47,47,0.2);
+    color: var(--red-muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* More projects list */
+  .more-projects-wrapper {
+    margin-top: 36px;
+  }
+
+  .btn-more {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--slate-300);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-more:hover { border-color: var(--red-muted); color: var(--white); }
+
+  .btn-more .arrow {
+    display: inline-block;
+    transition: transform 0.25s;
+    font-size: 1rem;
+  }
+
+  .btn-more.open .arrow { transform: rotate(180deg); }
+
+  .more-list {
+    display: none;
+    margin-top: 2px;
+    max-height: 420px;
+    overflow-y: auto;
+    border: 1px solid rgba(255,255,255,0.06);
+    scrollbar-width: thin;
+    scrollbar-color: var(--red) transparent;
+  }
+
+  .more-list.visible { display: block; }
+
+  .more-list::-webkit-scrollbar { width: 4px; }
+  .more-list::-webkit-scrollbar-track { background: transparent; }
+  .more-list::-webkit-scrollbar-thumb { background: var(--red); }
+
+  .more-item {
+    display: grid;
+    grid-template-columns: 180px 1fr auto;
+    gap: 24px;
+    align-items: start;
+    padding: 20px 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.2s;
+  }
+
+  .more-item:last-child { border-bottom: none; }
+  .more-item:hover { background: rgba(255,255,255,0.03); }
+
+  .more-item-uni {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--red-muted);
+    padding-top: 2px;
+  }
+
+  .more-item-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--white);
+  }
+
+  .more-item-desc {
+    font-size: 0.8rem;
+    color: var(--slate-500);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  .more-item-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--slate-500);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: 3px;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--white);
+    border-top: 1px solid var(--slate-100);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-info p {
+    font-size: 0.95rem;
+    color: var(--slate-500);
+    line-height: 1.8;
+    max-width: 400px;
+    margin-bottom: 36px;
+  }
+
+  .contact-method {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--slate-100);
+  }
+
+  .contact-method:first-of-type { border-top: 1px solid var(--slate-100); }
+
+  .contact-method-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--slate-300);
+    width: 60px;
+  }
+
+  .contact-method a {
+    color: var(--slate-900);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+
+  .contact-method a:hover { color: var(--red); }
+
+  /* Profile card */
+  .profile-card {
+    background: var(--slate-900);
+    color: var(--white);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .profile-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle at bottom right, rgba(140,47,47,0.25), transparent 70%);
+  }
+
+  .profile-initial {
+    width: 52px; height: 52px;
+    background: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+
+  .profile-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .profile-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--red-muted);
+    margin-bottom: 20px;
+  }
+
+  .profile-bio {
+    font-size: 0.85rem;
+    color: var(--slate-300);
+    line-height: 1.8;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 20px;
+  }
+
+  .profile-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .profile-tag {
+    padding: 4px 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--slate-300);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(140,47,47,0.3);
+  }
+
+  .footer-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--white);
+  }
+
+  .footer-brand span { color: var(--red-muted); }
+
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--slate-500);
+    letter-spacing: 0.08em;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.animate-ready {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .fade-in.animate-ready.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 24px; }
+    section { padding: 72px 24px; }
+    #hero { padding: 100px 24px 72px; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    .project-grid { grid-template-columns: 1fr; }
+    .hero-stat-row { gap: 28px; flex-wrap: wrap; }
+    .more-item { grid-template-columns: 1fr; gap: 6px; }
+    .more-item-tag { display: none; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-brand">Careers Lab<span>.AI</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <p class="hero-label">// Higher Education × Artificial Intelligence</p>
+  <h1 class="hero-title">Where practitioners<br>shape the <em>future of work</em></h1>
+  <p class="hero-sub">A space for higher education professionals sharing real, applied work in AI and employability. We connect research, tools and experience across institutions.</p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn-primary">Explore Projects</a>
+    <a href="#about" class="btn-ghost">Learn More</a>
+  </div>
+  <div class="hero-stat-row">
+    <div class="hero-stat">
+      <strong>12+</strong>
+      <span>Active Projects</span>
+    </div>
+    <div class="hero-stat">
+      <strong>08</strong>
+      <span>Universities</span>
+    </div>
+    <div class="hero-stat">
+      <strong>Open</strong>
+      <span>To Practitioners</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">// 001 — About</p>
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <h2 class="section-heading">A practitioner-led space for AI in employability</h2>
+      <p>Careers Lab.AI is a community platform built for and by higher education practitioners who are actively exploring AI within employability and careers contexts. We exist because this work is happening and it deserves to be seen.</p>
+      <p>We are not a research journal or a policy body. We are a conversation between the people doing the work. Whether you're integrating large language models into careers guidance, developing AI-augmented skills frameworks, or simply experimenting with what's possible, this is your space to share it.</p>
+      <p>Our focus spans curriculum design, careers advising, digital skills, labour market intelligence, and the pedagogical questions that AI raises for how we prepare students for an uncertain world of work.</p>
+    </div>
+    <div class="about-pillars fade-in">
+      <div class="pillar">
+        <span class="pillar-num">01</span>
+        <div class="pillar-text">
+          <strong>Showcase Applied AI Work</strong>
+          <p>Highlight the applied AI projects happening inside HE institutions — case studies to inspire that can be understood, adapted, and applied elsewhere.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">02</span>
+        <div class="pillar-text">
+          <strong>Centre Student Employability</strong>
+          <p>Keep the focus grounded in what matters: how AI can genuinely support students in navigating their futures and developing relevant skills.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">03</span>
+        <div class="pillar-text">
+          <strong>Stay Critically Engaged</strong>
+          <p>Embrace the possibilities of AI in higher education while asking hard questions about inclusion, ethics, and what technology should and shouldn't do.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-intro">
+    <div>
+      <p class="section-label">// 002 — Projects</p>
+      <h2 class="section-heading">Latest work from across the sector</h2>
+    </div>
+  </div>
+
+  <!-- 2x2 grid -->
+  <div class="project-grid fade-in">
+    <div class="project-card">
+      <p class="project-uni">London South Bank University</p>
+      <h3 class="project-name">AI Career Coach Prototype</h3>
+      <p class="project-desc">An exploratory LLM-powered careers guidance tool designed to offer personalised, 24/7 support to undergraduate students navigating graduate job applications, interview preparation, and CV development.</p>
+      <span class="project-tag">Careers Guidance</span>
+    </div>
+    <div class="project-card">
+      <p class="project-uni">University of Manchester</p>
+      <h3 class="project-name">SkillsMap — Labour Market Intelligence</h3>
+      <p class="project-desc">A live dashboard that uses NLP to parse thousands of job postings and map emerging skill requirements against existing curriculum frameworks, helping careers advisors give more timely, data-driven guidance.</p>
+      <span class="project-tag">Labour Market</span>
+    </div>
+    <div class="project-card">
+      <p class="project-uni">University of Edinburgh</p>
+      <h3 class="project-name">Reflective Portfolio Generator</h3>
+      <p class="project-desc">Using generative AI to prompt and scaffold students through the process of articulating their employability experiences, producing structured, reviewable reflective portfolios tied to graduate attributes.</p>
+      <span class="project-tag">Curriculum Design</span>
+    </div>
+    <div class="project-card">
+      <p class="project-uni">UCL</p>
+      <h3 class="project-name">Ethics Simulator for Career Decisions</h3>
+      <p class="project-desc">An interactive AI scenario engine placing students in realistic workplace ethical dilemmas, designed to develop professional judgement and support modules in business, law, and health sciences.</p>
+      <span class="project-tag">Digital Skills</span>
+    </div>
+  </div>
+
+  <!-- More projects -->
+  <div class="more-projects-wrapper fade-in">
+    <button class="btn-more" id="moreBtn">
+      <span>View all projects</span>
+      <span class="arrow">↓</span>
+    </button>
+    <div class="more-list" id="moreList">
+      <div class="more-item">
+        <span class="more-item-uni">University of Bristol</span>
+        <div>
+          <div class="more-item-name">Interview Simulator v2</div>
+          <div class="more-item-desc">AI-powered mock interview platform with sector-specific question banks and real-time feedback on response clarity, confidence language, and relevance.</div>
+        </div>
+        <span class="more-item-tag">Careers Tech</span>
+      </div>
+      <div class="more-item">
+        <span class="more-item-uni">King's College London</span>
+        <div>
+          <div class="more-item-name">Equity in AI Careers Tools</div>
+          <div class="more-item-desc">A critical research project auditing bias in AI-assisted graduate recruitment tools, producing guidance for institutions and employers on fairness and accessibility.</div>
+        </div>
+        <span class="more-item-tag">Research</span>
+      </div>
+      <div class="more-item">
+        <span class="more-item-uni">Sheffield Hallam University</span>
+        <div>
+          <div class="more-item-name">Degree Apprenticeship AI Planner</div>
+          <div class="more-item-desc">A planning and reflection tool helping degree apprentices connect on-the-job learning with academic outcomes, using AI to surface relevant skill evidence.</div>
+        </div>
+        <span class="more-item-tag">Apprenticeships</span>
+      </div>
+      <div class="more-item">
+        <span class="more-item-uni">Northumbria University</span>
+        <div>
+          <div class="more-item-name">Digital Skills Passport</div>
+          <div class="more-item-desc">A credentials framework supported by AI self-assessment, allowing students to build a verified, portable record of digital competencies aligned to employer needs.</div>
+        </div>
+        <span class="more-item-tag">Digital Skills</span>
+      </div>
+      <div class="more-item">
+        <span class="more-item-uni">University of Leeds</span>
+        <div>
+          <div class="more-item-name">Sector Insight Chatbot</div>
+          <div class="more-item-desc">A RAG-powered chatbot trained on industry reports and alumni career data, deployed via the careers centre to answer student questions about sector pathways.</div>
+        </div>
+        <span class="more-item-tag">AI Tooling</span>
+      </div>
+      <div class="more-item">
+        <span class="more-item-uni">Coventry University</span>
+        <div>
+          <div class="more-item-name">Employer Partnership Matching</div>
+          <div class="more-item-desc">Machine learning model to surface relevant placement and project opportunities for students based on academic profile, expressed interests, and real-time employer listings.</div>
+        </div>
+        <span class="more-item-tag">Placements</span>
+      </div>
+      <div class="more-item">
+        <span class="more-item-uni">University of Glasgow</span>
+        <div>
+          <div class="more-item-name">AI Literacy for Employability</div>
+          <div class="more-item-desc">A blended learning module equipping final-year students with the critical AI literacy skills employers are increasingly requiring across all sectors and disciplines.</div>
+        </div>
+        <span class="more-item-tag">Curriculum</span>
+      </div>
+      <div class="more-item">
+        <span class="more-item-uni">Goldsmiths, University of London</span>
+        <div>
+          <div class="more-item-name">Creative Futures AI Studio</div>
+          <div class="more-item-desc">An experimental space for creative arts students to explore AI as a professional tool, developing workflows, critical perspectives, and portfolio outputs for the creative industries.</div>
+        </div>
+        <span class="more-item-tag">Creative Industries</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">// 003 — Contact</p>
+  <div class="contact-grid">
+    <div class="contact-info fade-in">
+      <h2 class="section-heading">Get in touch or contribute your work</h2>
+      <p>Whether you want to submit a project, collaborate on research, or simply find out more about what Careers Lab.AI is building — we'd love to hear from you. Practitioners from any institution are welcome.</p>
+      <div class="contact-method">
+        <span class="contact-method-label">Email</span>
+        <a href="mailto:sean.richardson@lsbu.ac.uk">sean.richardson@lsbu.ac.uk</a>
+      </div>
+      <div class="contact-method">
+        <span class="contact-method-label">Based</span>
+        <span style="font-size:0.9rem;color:var(--slate-700)">London, United Kingdom</span>
+      </div>
+    </div>
+
+    <div class="profile-card fade-in">
+      <div class="profile-initial">SR</div>
+      <p class="profile-name">Séan Richardson</p>
+      <p class="profile-role">Careers Lab.AI Founder</p>
+      <p class="profile-bio">Hi, I'm Séan, an education professional specialising in digital skills and AI in higher education. I work at the intersection of virtual learning environments, curriculum design, and employability. Currently at London South Bank University, my career spans digital education projects from London to Los Angeles, with a consistent focus on equipping learners with the skills they need to grow and succeed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-brand">Careers Lab<span>.AI</span></span>
+  <p>A practitioner community for AI in higher education employability</p>
+  <p>© 2025 Careers Lab.AI</p>
+</footer>
+
+<script>
+  // Toggle more projects
+  window.toggleMore = function() {
+    const list = document.getElementById('moreList');
+    const btn = document.getElementById('moreBtn');
+    list.classList.toggle('visible');
+    btn.classList.toggle('open');
+    btn.querySelector('span:first-child').textContent = list.classList.contains('visible') 
+      ? 'Hide projects' : 'View all projects';
+  }
+
+  document.getElementById('moreBtn').addEventListener('click', window.toggleMore);
+
+  // Scroll fade-in
+  const fadeEls = document.querySelectorAll('.fade-in');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05 });
+
+  fadeEls.forEach(el => observer.observe(el));
+
+  // Smooth nav highlight
+  const sections = document.querySelectorAll('section[id], #hero');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
