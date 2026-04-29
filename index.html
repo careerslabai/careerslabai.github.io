@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Careers Lab.AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0d0d;
+    --white: #f5f4f0;
+    --slate-900: #1a1f2e;
+    --slate-700: #374151;
+    --slate-500: #6b7280;
+    --slate-300: #b0b8c4;
+    --slate-100: #e8eaed;
+    --red: #8c2f2f;
+    --red-light: #a83535;
+    --red-muted: #c9706a;
+    --accent-line: #8c2f2f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--slate-900);
+    font-size: 15px;
+    line-height: 1.6;
+    cursor: default;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    border-bottom: 1px solid rgba(140,47,47,0.4);
+  }
+
+  .nav-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.35rem;
+    color: var(--white);
+    letter-spacing: 0.01em;
+    text-decoration: none;
+  }
+
+  .nav-brand span {
+    color: var(--red-muted);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--slate-300);
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--red-muted);
+    transition: width 0.25s ease;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    background: var(--black);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(140,47,47,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  #hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--red), transparent);
+  }
+
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red-muted);
+    margin-bottom: 28px;
+  }
+
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    line-height: 1.0;
+    color: var(--white);
+    max-width: 800px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--red-muted);
+  }
+
+  .hero-sub {
+    margin-top: 32px;
+    font-size: 1rem;
+    color: var(--slate-300);
+    max-width: 520px;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .hero-cta {
+    margin-top: 52px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 14px 32px;
+    background: var(--red);
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover { background: var(--red-light); transform: translateY(-1px); }
+
+  .btn-ghost {
+    display: inline-block;
+    padding: 13px 32px;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--slate-300);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+    cursor: pointer;
+    background: none;
+  }
+
+  .btn-ghost:hover { border-color: var(--red-muted); color: var(--white); }
+
+  .hero-stat-row {
+    margin-top: 72px;
+    display: flex;
+    gap: 48px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .hero-stat strong {
+    display: block;
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--white);
+  }
+
+  .hero-stat span {
+    font-size: 0.78rem;
+    color: var(--slate-500);
+    letter-spacing: 0.06em;
+  }
+
+  .hero-stat-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .hero-stat-link:hover { color: var(--white); }
+
+  /* ── SECTION SHARED ── */
+  section {
+    padding: 100px 48px;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 16px;
+  }
+
+  .section-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--slate-900);
+    line-height: 1.15;
+    max-width: 600px;
+    margin-bottom: 48px;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--white);
+    border-top: 1px solid var(--slate-100);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--slate-700);
+    line-height: 1.85;
+    font-size: 0.97rem;
+    margin-bottom: 20px;
+  }
+
+  .about-pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .pillar {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--slate-100);
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .pillar:first-child { border-top: 1px solid var(--slate-100); }
+
+  .pillar-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--red);
+    letter-spacing: 0.1em;
+    padding-top: 3px;
+    min-width: 28px;
+  }
+
+  .pillar-text strong {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--slate-900);
+    margin-bottom: 4px;
+  }
+
+  .pillar-text p {
+    font-size: 0.83rem;
+    color: var(--slate-500);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── PROJECTS ── */
+  #projects {
+    background: var(--slate-900);
+    color: var(--white);
+  }
+
+  #projects .section-heading { color: var(--white); }
+  #projects .section-label { color: var(--red-muted); }
+
+  .projects-intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .projects-intro .section-heading { margin-bottom: 0; }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .project-card {
+    background: var(--slate-900);
+    position: relative;
+    overflow: hidden;
+    list-style: none;
+    transition: background 0.25s;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 2px; height: 0;
+    background: var(--red);
+    transition: height 0.3s ease;
+  }
+
+  .project-card:hover { background: #222838; }
+  .project-card:hover::before { height: 100%; }
+  .project-card[open] { background: #222838; }
+  .project-card[open]::before { height: 100%; }
+
+  .project-summary {
+    padding: 36px;
+    cursor: pointer;
+    list-style: none;
+    display: block;
+  }
+
+  .project-summary::-webkit-details-marker { display: none; }
+
+  .project-expanded {
+    padding: 0 36px 32px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin-top: -8px;
+  }
+
+  .project-full-desc {
+    font-size: 0.88rem;
+    color: var(--slate-300);
+    line-height: 1.85;
+    padding-top: 20px;
+  }
+
+  .expand-hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--slate-500);
+    transition: color 0.2s;
+  }
+
+  .project-summary:hover .expand-hint { color: var(--red-muted); }
+  .project-card[open] .expand-hint { color: var(--red-muted); }
+
+  .expand-hint .plus { display: inline; }
+  .expand-hint .minus { display: none; }
+  .project-card[open] .expand-hint .plus { display: none; }
+  .project-card[open] .expand-hint .minus { display: inline; }
+
+  .project-card[open] .hint-text::after { content: 'less'; }
+  .project-card[open] .hint-text { font-size: 0; }
+  .project-card[open] .hint-text::after { font-size: 0.62rem; }
+
+  .project-uni {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red-muted);
+    margin-bottom: 10px;
+  }
+
+  .project-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--white);
+    margin-bottom: 14px;
+    line-height: 1.25;
+  }
+
+  .project-desc {
+    font-size: 0.85rem;
+    color: var(--slate-300);
+    line-height: 1.7;
+  }
+
+  .project-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: rgba(139,92,246,0.15);
+    color: #a78bfa;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .project-meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .meta-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.60rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .meta-tag-label {
+    color: var(--slate-500);
+  }
+
+  .meta-tag-value-type {
+    color: #a78bfa;
+    background: rgba(139,92,246,0.15);
+    padding: 2px 7px;
+  }
+
+  .meta-tag-value-easy {
+    color: #6fcf97;
+    background: rgba(111,207,151,0.1);
+    padding: 2px 7px;
+  }
+
+  .meta-tag-value-medium {
+    color: #f2c94c;
+    background: rgba(242,201,76,0.1);
+    padding: 2px 7px;
+  }
+
+  .meta-tag-value-hard {
+    color: #eb5757;
+    background: rgba(235,87,87,0.1);
+    padding: 2px 7px;
+  }
+
+  .meta-tag-value-free {
+    color: #56ccf2;
+    background: rgba(86,204,242,0.1);
+    padding: 2px 7px;
+  }
+
+  .meta-tag-value-low {
+    color: #56ccf2;
+    background: rgba(86,204,242,0.1);
+    padding: 2px 7px;
+  }
+
+  .meta-tag-value-large {
+    color: #56ccf2;
+    background: rgba(86,204,242,0.1);
+    padding: 2px 7px;
+  }
+
+  /* More projects list */
+  .more-projects-wrapper {
+    margin-top: 36px;
+  }
+
+  .btn-more {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--slate-300);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-more:hover { border-color: var(--red-muted); color: var(--white); }
+
+  .btn-more .arrow {
+    display: inline-block;
+    transition: transform 0.25s;
+    font-size: 1rem;
+  }
+
+  .btn-more.open .arrow { transform: rotate(180deg); }
+
+  .more-list {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease;
+    border: 1px solid transparent;
+  }
+
+  .more-list.visible {
+    max-height: 9999px;
+    border-color: rgba(255,255,255,0.06);
+  }
+
+  .more-item {
+    display: grid;
+    grid-template-columns: 180px 1fr auto;
+    gap: 24px;
+    align-items: start;
+    padding: 20px 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.2s;
+  }
+
+  .more-item:last-child { border-bottom: none; }
+  .more-item:hover { background: rgba(255,255,255,0.03); }
+
+  .more-item-uni {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--red-muted);
+    padding-top: 2px;
+  }
+
+  .more-item-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--white);
+  }
+
+  .more-item-desc {
+    font-size: 0.8rem;
+    color: var(--slate-500);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  .more-item-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--slate-500);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: 3px;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--white);
+    border-top: 1px solid var(--slate-100);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-info p {
+    font-size: 0.95rem;
+    color: var(--slate-500);
+    line-height: 1.8;
+    max-width: 400px;
+    margin-bottom: 36px;
+  }
+
+  .contact-method {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--slate-100);
+  }
+
+  .contact-method:first-of-type { border-top: 1px solid var(--slate-100); }
+
+  .contact-method-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--slate-300);
+    width: 60px;
+  }
+
+  .contact-method a {
+    color: var(--slate-900);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+
+  .contact-method a:hover { color: var(--red); }
+
+  /* Profile card */
+  .profile-card {
+    background: var(--slate-900);
+    color: var(--white);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .profile-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle at bottom right, rgba(140,47,47,0.25), transparent 70%);
+  }
+
+  .profile-initial {
+    width: 52px; height: 52px;
+    background: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+
+  .profile-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .profile-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--red-muted);
+    margin-bottom: 20px;
+  }
+
+  .profile-bio {
+    font-size: 0.85rem;
+    color: var(--slate-300);
+    line-height: 1.8;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 20px;
+  }
+
+  .profile-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .profile-tag {
+    padding: 4px 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--slate-300);
+  }
+
+  /* ── ALL PROJECTS ── */
+  .all-projects-details {
+    margin-top: 32px;
+    list-style: none;
+  }
+
+  .btn-all-projects {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--slate-300);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    list-style: none;
+  }
+
+  .btn-all-projects::-webkit-details-marker { display: none; }
+  .btn-all-projects:hover { border-color: var(--red-muted); color: var(--white); }
+
+  .ap-close { display: none; }
+  .all-projects-details[open] .ap-open { display: none; }
+  .all-projects-details[open] .ap-close { display: inline; }
+
+  .all-projects-list {
+    margin-top: 2px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .all-projects-empty {
+    padding: 28px 32px;
+    font-size: 0.88rem;
+    color: var(--slate-500);
+  }
+
+  .all-projects-empty a {
+    color: var(--red-muted);
+    text-decoration: none;
+  }
+
+  .all-projects-empty a:hover { color: var(--white); }
+
+  .all-project-row {
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    gap: 24px;
+    align-items: start;
+    padding: 20px 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.2s;
+  }
+
+  .all-project-row:last-child { border-bottom: none; }
+  .all-project-row:hover { background: rgba(255,255,255,0.03); }
+
+  .apr-uni {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--red-muted);
+    padding-top: 2px;
+  }
+
+  .apr-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .apr-desc {
+    font-size: 0.8rem;
+    color: var(--slate-500);
+    line-height: 1.5;
+  }
+
+  .apr-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--slate-500);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: 3px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(140,47,47,0.3);
+  }
+
+  .footer-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--white);
+  }
+
+  .footer-brand span { color: var(--red-muted); }
+
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--slate-500);
+    letter-spacing: 0.08em;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.animate-ready {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .fade-in.animate-ready.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 24px; }
+    section { padding: 72px 24px; }
+    #hero { padding: 100px 24px 72px; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    .project-grid { grid-template-columns: 1fr; }
+    .hero-stat-row { gap: 28px; flex-wrap: wrap; }
+    .more-item { grid-template-columns: 1fr; gap: 6px; }
+    .more-item-tag { display: none; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-brand">Careers Lab<span>.AI</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <p class="hero-label">// Higher Education × AI × Career Skills</p>
+  <h1 class="hero-title">Where practitioners<br>shape the <em>future of work</em></h1>
+  <p class="hero-sub">A space for higher education professionals sharing real, applied work in AI and employability. We connect research, tools, and experience across institutions.</p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn-primary">Explore Projects</a>
+    <a href="#about" class="btn-ghost">Learn More</a>
+  </div>
+  <div class="hero-stat-row">
+    <a href="#contact" class="hero-stat-link" onclick="event.preventDefault();document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Open to practitioners — get involved ↓</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">// 001 — About</p>
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <h2 class="section-heading">A practitioner-led space for AI in employability</h2>
+      <p>Careers Lab.AI is a community platform built for and by higher education practitioners who are actively exploring AI within employability and careers contexts. We exist because this work is happening and it deserves to be seen.</p>
+      <p>We are not a research journal or a policy body. We are a conversation between the people doing the work. Whether you're integrating large language models into careers guidance, developing AI-augmented skills frameworks, or simply experimenting with what's possible, this is your space to share it.</p>
+      <p>Our focus spans curriculum design, careers advising, digital skills, labour market intelligence, and the pedagogical questions that AI raises for how we prepare students for an uncertain world of work.</p>
+    </div>
+    <div class="about-pillars fade-in">
+      <div class="pillar">
+        <span class="pillar-num">01</span>
+        <div class="pillar-text">
+          <strong>Showcase Applied AI Work</strong>
+          <p>Highlight the applied AI projects happening inside HE institutions. Inspirational case studies that can be understood, adapted, and applied elsewhere.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">02</span>
+        <div class="pillar-text">
+          <strong>Centre Student Employability</strong>
+          <p>Keep the focus grounded in what matters: how AI can support students in navigating their futures and developing relevant skills.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">03</span>
+        <div class="pillar-text">
+          <strong>Stay Critically Engaged</strong>
+          <p>Embrace the possibilities of AI in higher education while asking hard questions about inclusion, ethics, and what technology should and shouldn't do.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-intro">
+    <div>
+      <p class="section-label">// 002 — Projects</p>
+      <h2 class="section-heading">Latest work from across the sector</h2>
+    </div>
+  </div>
+
+  <!-- project grid -->
+  <div class="project-grid fade-in">
+    <details class="project-card">
+      <summary class="project-summary">
+        <p class="project-uni">Middlesex University</p>
+        <h3 class="project-name">The Emerging Professionals Programme</h3>
+        <p class="project-desc">How Middlesex University partnered with an AI startup to give students a hands-on immersion in AI at work. The project combined expert-led online sessions with three days of live, collaborative production at the company's premises.</p>
+        <span class="expand-hint"><span class="plus">+</span><span class="minus">−</span> <span class="hint-text">Read more</span></span>
+      </summary>
+      <div class="project-expanded">
+        <div class="project-meta">
+          <span class="meta-tag"><span class="meta-tag-label">Project Type</span> <span class="meta-tag-value-type">Industry Partnership</span></span>
+          <span class="meta-tag"><span class="meta-tag-label">Replicability</span> <span class="meta-tag-value-hard">Hard</span></span>
+          <span class="meta-tag"><span class="meta-tag-label">Cost</span> <span class="meta-tag-value-free">Free</span></span>
+        </div>
+        <p class="project-full-desc"><strong>Practitioner:</strong> Maria Olariu<br>
+<strong>Role:</strong> Employability and Careers Practitioner<br>
+<strong>Institution:</strong> Middlesex University<br>
+<br>
+<strong>Problem:</strong> Careers teams are under pressure to give students meaningful AI skills, but the discourse on campus tends to default to either policing academic integrity or generic digital skills training. Neither approach helps students understand how AI is actually used in the workplace, nor gives them the hands-on confidence they need to enter a sector where AI knowledge is increasingly expected.<br>
+<br>
+<strong>Solution:</strong> Maria co-designed the Emerging Professionals Programme with a partner AI startup, creating a structured two-week experience that moved students from conceptual understanding into production work.<br>
+<br>
+The first week was delivered online and brought together a range of professional speakers covering how AI intersects with career development across different industry sectors. The week concluded with an online wrap-up session to consolidate learning.<br>
+<br>
+Weeks two through four shifted to the company's premises for three full days of practical work. Students were placed into interdisciplinary groups drawn from across the university, combining different skills and subject backgrounds by design. Their task was to develop an original idea for a video podcast and then produce it. The company provided studio space, camera equipment, editing software, and skilled staff to support them. When it came to the editing stage, students worked collaboratively and used AI tools to complete the work.<br>
+<br>
+Students who performed strongly were fast-tracked into the Horizons programme, a separate initiative that placed them into real-world project work with the company, giving them a direct pathway from the programme to substantive work experience. One student went on to work with the startup's creative team directly. Those who completed the programme also went on to participate in a Google AI training, thereby continuing the learning beyond the programme itself.<br>
+<br>
+A showcase event hosted during a university conference allowed students to present their work to senior figures from both higher education and industry, providing a high-profile platform for the cohort's output. Several students have continued developing their podcasts independently, with episodes visible on LinkedIn. All have maintained the networks they built during the programme.<br>
+<br>
+The entire programme ran at no cost to the university. All speakers, the company's premises, the equipment, the follow-up placement opportunities, and the Horizons places were offered on a voluntary basis. Maria led the project in collaboration with a representative from the startup, with the wider team taking turns on delivery, chairing online sessions, and attending on-site days.<br>
+<br>
+<strong>Considerations:</strong> This is a high-effort project that requires a strong industry partner willing to commit time and resources on a voluntary basis. The replicability depends significantly on the relationships you bring to it. Building in clear impact measurement from the outset, rather than relying on student feedback and participation data after the fact, would strengthen the case for future iterations. Ensure any follow-on work experience or placement activity complies with your institution's employment and GDPR policies.<br>
+<br>
+<strong>Want to know more?</strong> Contact Maria Olariu at Middlesex University.</p>
+      </div>
+    </details>
+
+    <details class="project-card">
+      <summary class="project-summary">
+        <p class="project-uni">University of Huddersfield</p>
+        <h3 class="project-name">ChatGPT in Personal Practice: How Chris Webb Uses AI as a Thinking Tool</h3>
+        <p class="project-desc">How a careers practitioner at the University of Huddersfield has built a portfolio of personal ChatGPT use — from custom GPTs for one-to-one guidance to automated vacancy sourcing.</p>
+        <span class="expand-hint"><span class="plus">+</span><span class="minus">−</span> <span class="hint-text">Read more</span></span>
+      </summary>
+      <div class="project-expanded">
+        <div class="project-meta">
+          <span class="meta-tag"><span class="meta-tag-label">Project Type</span> <span class="meta-tag-value-type">Personal Practice</span></span>
+          <span class="meta-tag"><span class="meta-tag-label">Replicability</span> <span class="meta-tag-value-medium">Medium</span></span>
+          <span class="meta-tag"><span class="meta-tag-label">Cost</span> <span class="meta-tag-value-low">Low</span></span>
+        </div>
+        <p class="project-full-desc"><strong>Practitioner:</strong> Chris Webb<br>
+<strong>Role:</strong> Careers and Employability Practitioner<br>
+<strong>Institution:</strong> University of Huddersfield<br>
+<br>
+<strong>Problem:</strong> Chris has been running careers sessions for student groups from diverse courses, and the preparation demands were significant. Producing personalised, cohort-specific resources — such as mock assessment scenarios, sample CVs, and practice interview questions — consumed a disproportionate amount of time. The institutional AI provision was Copilot Basic, which he found useful but limited. Three years ago he took out a personal paid ChatGPT subscription, using it entirely for his own practice on non-proprietary work.<br>
+<br>
+<strong>Solution:</strong> Chris uses ChatGPT in three distinct ways: for resource creation, for building custom tools he uses in guidance sessions, and for coaching students to use AI as a practical research tool themselves.<br>
+<br>
+For resource creation, ChatGPT has transformed preparation time. What used to take hours can now be turned around quickly and edited to fit the group in front of him. Running a mock assessment centre for postgraduate business students one week and computing engineers the next no longer means building from scratch each time. Chris estimates this saves him around four hours per resource cycle. He labels all AI-generated materials to say which tool was used, and treats this as an opening for conversations with students about transparency and what responsible AI use looks like in practice.<br>
+<br>
+For one-to-one guidance, Chris has built two custom GPTs he uses alongside students in sessions. The first is a career exploration bot that deliberately avoids showing job titles. Students often fixate on a specific role, which closes down thinking rather than opening it up. Instead of showing job titles, the bot takes the skills, interests, and values that a student shares during the session and generates broad areas of work, example industries, and organisations. Chris uses this as a launching point, then typically continues building out the picture with the student. The second custom GPT generates practice interview questions across six thematic areas drawn from years of running mock interviews. He uses it both for his own preparation ahead of practice interview sessions and directly with students to open up a conversation about which questions feel most relevant to their particular background and situation.<br>
+<br>
+Finally, for student research, Chris has started being more explicit about how students can use ChatGPT as a starting point for employer and industry research. A recent example involved a student who wanted to stay in Greater Manchester and focus on interior design. Rather than sending them away to search manually, Chris worked with them in session to use ChatGPT to scrape the internet and to build an initial employer spreadsheet. The student then supplemented that base with their own industry knowledge and connections. The same approach is being explored for the placements team, where a student currently spends time each week manually trawling job boards to compile a vacancy email list — a task that could be structured as an automated daily output using the same method.<br>
+<br>
+Chris is careful about digital equity when demonstrating these tools with students: the model features he uses require a paid subscription, and he actively explores with students what is achievable on free-tier access and what alternatives exist.<br>
+<br>
+<strong>Considerations:</strong> Chris uses ChatGPT on a personal subscription and has made a deliberate decision not to use it for anything involving student data, which stays within the institutional Copilot environment. Any practitioner replicating this approach should be clear about the same boundary. When demonstrating paid ChatGPT features to students, be transparent about what requires a subscription and what is available on free accounts.<br>
+<br>
+<strong>Software:</strong> <a href="https://chatgpt.com" target="_blank" rel="noopener" style="color:var(--red-muted);text-decoration:underline;">ChatGPT</a><br>
+<br>
+<strong>Want to know more?</strong> <a href="https://www.linkedin.com/in/christopherwebbuk/" target="_blank" rel="noopener" style="color:var(--red-muted);text-decoration:underline;">Contact Chris</a></p>
+      </div>
+    </details>
+
+    <details class="project-card">
+      <summary class="project-summary">
+        <p class="project-uni">Middlesex University</p>
+        <h3 class="project-name">Supercharging Student Assistants with NotebookLM</h3>
+        <p class="project-desc">How Middlesex University uses free, no-code Google NotebookLM to give student assistants instant, searchable answers to student queries — without needing a careers consultant in the room.</p>
+        <span class="expand-hint"><span class="plus">+</span><span class="minus">−</span> <span class="hint-text">Read more</span></span>
+      </summary>
+      <div class="project-expanded">
+        <div class="project-meta">
+          <span class="meta-tag"><span class="meta-tag-label">Project Type</span> <span class="meta-tag-value-type">Free Software</span></span>
+          <span class="meta-tag"><span class="meta-tag-label">Replicability</span> <span class="meta-tag-value-easy">Easy</span></span>
+          <span class="meta-tag"><span class="meta-tag-label">Cost</span> <span class="meta-tag-value-free">Free</span></span>
+        </div>
+        <p class="project-full-desc"><strong>Practitioner:</strong> Matt Lewis<br>
+<strong>Role:</strong> Careers Consultant<br>
+<strong>Institution:</strong> Middlesex University<br>
+<br>
+<strong>Problem:</strong> Middlesex University has a small careers team that relies on student assistants to triage students seeking support to the correct services. Without specialist knowledge, those assistants often struggled to find the correct Careers Consultant or service, especially because many Careers Consultants work across multiple schools. When a student seeking support asked about job searching in their specific industry, or needed to know which consultant covered their course, the assistants often struggled.<br>
+<br>
+<strong>Solution:</strong> Matt built a searchable knowledge base in Google's free NotebookLM tool. Student assistants can now type any question into the notebook during a triage conversation and get an instant, accurate answer drawn only from those documents.<br>
+<br>
+Matt built the tool using documents he had already developed. The knowledge base brings together three types of content. First, industry guides that cover job boards, professional bodies, and career pathways for every subject area the team supports. Second, a staff allocation spreadsheet showing which consultant covers which programme at undergraduate and postgraduate level. Third, a catch-all reference document for edge cases, such as ensuring veterinary nursing students are directed to the right sector rather than towards NHS roles. Because NotebookLM only draws on the documents uploaded to it, answers stay relevant and institution-specific. The response length can also be adjusted to suit the pace of the conversation, with shorter answers for quick queries and more detailed responses when needed.<br>
+<br>
+Matt has also built a personal version for his own specialism in the arts, loading in detailed programme guides that give him on-demand access to the depth of knowledge he has built up over years. The entire project runs on the free version of NotebookLM and required no technical background to set up.<br>
+<br>
+<strong>Considerations:</strong> When using software like NotebookLM, consider data privacy and GDPR, making sure that institutional guidelines are met and that private data is not shared.<br>
+<br>
+<strong>Software:</strong> <a href="https://notebooklm.google.com" target="_blank" rel="noopener" style="color:var(--red-muted);text-decoration:underline;">Google NotebookLM</a><br>
+<br>
+<strong>Want to know more?</strong> <a href="https://www.linkedin.com/in/mattlewis78/?skipRedirect=true" target="_blank" rel="noopener" style="color:var(--red-muted);text-decoration:underline;">Contact Matt</a></p>
+      </div>
+    </details>
+
+    <details class="project-card">
+      <summary class="project-summary">
+        <p class="project-uni">London South Bank University</p>
+        <h3 class="project-name">LSBU Career Skills Award</h3>
+        <p class="project-desc">How London South Bank University built a structured, AI-powered digital employability platform that prepares students for the job market at their own pace, tailored to their course and backed by real learning theory.</p>
+        <span class="expand-hint"><span class="plus">+</span><span class="minus">−</span> <span class="hint-text">Read more</span></span>
+      </summary>
+      <div class="project-expanded">
+        <div class="project-meta">
+          <span class="meta-tag"><span class="meta-tag-label">Project Type</span> <span class="meta-tag-value-type">EdTech</span></span>
+          <span class="meta-tag"><span class="meta-tag-label">Replicability</span> <span class="meta-tag-value-hard">Hard</span></span>
+          <span class="meta-tag"><span class="meta-tag-label">Cost</span> <span class="meta-tag-value-large">Large investment in EdTech Tool</span></span>
+        </div>
+        <p class="project-full-desc"><strong>Practitioner:</strong> Séan Richardson<br>
+<strong>Role:</strong> Careers and Digital Learning<br>
+<strong>Institution:</strong> London South Bank University<br>
+<br>
+<strong>Problem:</strong> LSBU has an exceptionally diverse student body, with higher-than-average proportions of part-time students, students with caring responsibilities, and those working alongside their studies. Due to this, students needed flexible, self-paced access to careers support that traditional one-off workshops could not provide.<br>
+<br>
+<strong>Solution:</strong> The team built the LSBU Career Skills Award, a structured digital employability platform that students work through at their own pace, receiving a digital certificate for each level they complete.<br>
+<br>
+The award is divided into three levels: Core, Advanced, and Expert. Core covers the foundational skills every student needs to apply for any role, including CV writing, cover letters, and basic interview technique. Advanced targets the skills needed to secure a graduate-level position. Expert prepares the most motivated students for the full demands of the modern hiring process.<br>
+<br>
+Importantly, the Skills Award automatically offers personalised resources. With no action required from the student, the platform detects their course and serves a tailored version of the award. A Drama student sees guidance on the audition process, whereas a Civil Engineering student receives sector-specific advice on technical skills. Academics can also request a customised version for classroom use, embedding employability directly into the curriculum.<br>
+<br>
+AI tools are integrated throughout, including CareerSet, which requires students to score at least 70% on their CV before they can book a consultant appointment, ensuring students arrive prepared and consultants can focus on deeper work. The platform also integrates AI-powered custom ChatGPTs that guide students through CV writing and simulate job interviews at the point of need.<br>
+<br>
+Using Symplicity CareerHub, the team further tracks which students have not engaged with careers services and triangulates this against demographic data to identify those least likely to secure a graduate-level role, enabling targeted outreach before it is too late.<br>
+<br>
+The platform was co-created with students on work-based learning placements in the Careers Hub, who road-tested it and shaped the final product through their feedback.<br>
+<br>
+<strong>Considerations:</strong> This project requires a significant investment in an EdTech platform as well as ongoing staff time to build, maintain, and update content. Course-specific personalisation requires coordination with academic departments across the institution.<br>
+<br>
+<strong>Software:</strong> <a href="https://www.symplicity.com/careerhub" target="_blank" rel="noopener" style="color:var(--red-muted);text-decoration:underline;">Symplicity CareerHub</a>, <a href="https://careerset.io" target="_blank" rel="noopener" style="color:var(--red-muted);text-decoration:underline;">CareerSet</a><br>
+<br>
+<strong>Want to know more?</strong> <a href="https://www.linkedin.com/in/sean-richardson-lsbu/" target="_blank" rel="noopener" style="color:var(--red-muted);text-decoration:underline;">Contact Séan</a><br>
+<br>
+<strong>Read the full report:</strong> <a href="https://www.canva.com/design/DAGhWYVWmpU/Y_m3mVhB9R7ccFm7D45Dnw/view?utm_content=DAGhWYVWmpU&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hea9a6c70bb" target="_blank" rel="noopener" style="color:var(--red-muted);text-decoration:underline;">LSBU Career Skills Award Report</a></p>
+      </div>
+    </details>
+  </div>
+
+  <!-- All projects toggle -->
+  <details class="all-projects-details">
+    <summary class="btn-all-projects">
+      <span class="ap-open">View all projects ↓</span>
+      <span class="ap-close">Hide projects ↑</span>
+    </summary>
+    <div class="all-projects-list">
+      <p class="all-projects-empty">More projects coming soon. <a href="#contact">Get in touch</a> to share yours.</p>
+    </div>
+  </details>
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">// 003 — Contact</p>
+  <div class="contact-grid">
+    <div class="contact-info fade-in">
+      <h2 class="section-heading">Get in touch or contribute your work</h2>
+      <p>Whether you want to submit a project, collaborate on research, or simply find out more about what Careers Lab.AI is building — we'd love to hear from you. Practitioners from any institution are welcome.</p>
+      <div class="contact-method">
+        <span class="contact-method-label">Email</span>
+        <a href="mailto:sean.richardson@lsbu.ac.uk">Get in touch</a>
+      </div>
+      <div class="contact-method">
+        <span class="contact-method-label">Based</span>
+        <span style="font-size:0.9rem;color:var(--slate-700)">London, United Kingdom</span>
+      </div>
+    </div>
+
+    <div class="profile-card fade-in">
+      <div class="profile-initial">SR</div>
+      <a href="https://www.linkedin.com/in/sean-richardson-lsbu/" target="_blank" rel="noopener" style="text-decoration:none;"><p class="profile-name" style="transition:color 0.2s;" onmouseover="this.style.color='var(--red-muted)'" onmouseout="this.style.color='var(--white)'">Séan Richardson ↗</p></a>
+      <p class="profile-role">Careers Lab.AI Founder</p>
+      <p class="profile-bio">Hi, I'm Séan, an education professional specialising in digital skills and AI in higher education. I work at the intersection of virtual learning environments, curriculum design, and employability. Currently at London South Bank University, my career spans digital education projects from London to Los Angeles, with a consistent focus on equipping learners with the skills they need to grow and succeed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-brand">Careers Lab<span>.AI</span></span>
+  <p>A practitioner community for AI in higher education employability</p>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  var fadeEls = document.querySelectorAll('.fade-in');
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.05 });
+  fadeEls.forEach(function(el) { io.observe(el); });
+
+  var sections = document.querySelectorAll('section[id]');
+  var navLinks = document.querySelectorAll('.nav-links a');
+  var no = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        navLinks.forEach(function(a) { a.style.color = ''; });
+        var a
